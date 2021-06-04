@@ -1,0 +1,103 @@
+priority 100
+
+# Controller
+snippet clac "Create controller class"
+class ${1:Model}Controller < ApplicationController
+	before_action :find_${2:model}
+
+	$0
+
+	private
+	def find_$2
+		@$2 = ${3:$1}.find(params[:id]) if params[:id]
+	end
+end
+endsnippet
+snippet defcreate "def create - resource"
+def create
+	@${1:model} = ${2:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}.new(params[:$1])
+	$0
+	respond_to do |wants|
+		if @$1.save
+			flash[:notice] = '$2 was successfully created.'
+			wants.html { redirect_to(@$1) }
+			wants.json { render json: @$1, status: :created, location: @$1 }
+		else
+			wants.html { render action: "new" }
+			wants.json { render json: @$1.errors, status: :unprocessable_entity }
+		end
+	end
+end
+endsnippet
+snippet flash "flash[...]"
+flash[:${1:notice}] = "${2:Successfully created...}"$0
+endsnippet
+
+# Query
+snippet fini "find(id)"
+find(${1:id})
+endsnippet
+snippet fine "find_each"
+find_each(${1conditions: {:${2:field}: ${3:true}\}}) do |${4:${TM_CURRENT_WORD/(\w+)\./\L$1/g}}|
+	$0
+end
+endsnippet
+snippet finb "find_in_batches"
+find_in_batches(${1conditions: {:${2:field}: ${3:true}\}}) do |${4:${TM_CURRENT_WORD/(\w+)\./\L$1/g}}s|
+	$4s.each do |$4|
+		$0
+	end
+end
+endsnippet
+
+# Associations
+snippet bt "belongs_to (bt)"
+belongs_to :${1:object}${2:, class_name: "${3:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}", foreign_key: "${4:$1_id}"}
+endsnippet
+snippet habtm "has_and_belongs_to_many (habtm)"
+has_and_belongs_to_many :${1:object}${2:, join_table: "${3:table_name}", foreign_key: "${4:$1_id}"}
+endsnippet
+snippet hm "has_many (hm)"
+has_many :${1:object}s${2:, class_name: "$1", foreign_key: "${4:reference}_id"}
+endsnippet
+snippet hmt "has_many (through)"
+has_many :${1:objects}, through: :${2:join_association}${3:, source: :${4:$2_table_foreign_key_to_$1_table}}
+endsnippet
+snippet hmd "has_many dependent: :destroy"
+has_many :${1:object}s${2:, class_name: "$1", foreign_key: "${4:reference}_id"}, dependent: :destroy$0
+endsnippet
+snippet ho "has_one (ho)"
+has_one :${1:object}${2:, class_name: "${3:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}", foreign_key: "${4:$1_id}"}
+endsnippet
+
+# Callbacks
+snippet befc "before_create"
+before_create $0
+endsnippet
+snippet befd "before_destroy"
+before_destroy $0
+endsnippet
+snippet befs "before_save"
+before_save $0
+endsnippet
+snippet befu "before_update"
+before_update $0
+endsnippet
+snippet befv "before_validation"
+before_validation $0
+endsnippet
+snippet aftc "after_create"
+after_create $0
+endsnippet
+snippet aftd "after_destroy"
+after_destroy $0
+endsnippet
+snippet afts "after_save"
+after_save $0
+endsnippet
+snippet aftu "after_update"
+after_update $0
+endsnippet
+snippet aftv "after_validation"
+after_validation $0
+endsnippet

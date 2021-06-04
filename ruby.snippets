@@ -26,8 +26,8 @@ do |${1:arg}|
 end
 endsnippet
 
-snippet strf
-	strftime('${1:%Y-%m-%d %H:%M:%S %z}')
+snippet strf "Formats date according to the directives in the given format string." w
+strftime('${1:%Y-%m-%d %H:%M:%S %z}')
 endsnippet
 
 # snippet each
@@ -147,6 +147,8 @@ endsnippet
 snippet log "Rails.logger.info" b
 Rails.logger.info ${1}
 endsnippet
+
+extends rails
 
 #########################################
 # A valid snippet should starts with:
