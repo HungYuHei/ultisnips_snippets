@@ -1,0 +1,43 @@
+priority 100
+
+snippet vue_file "Single Vue File Template" b
+<template>
+</template>
+
+<script>
+export default {
+  components: {
+  },
+  data() {
+    return {
+    }
+  },
+  mounted() {
+  },
+  methods: {
+  },
+}
+</script>
+endsnippet
+
+snippet import "import component" b
+import ${1:component} from './${1}.vue'
+endsnippet
+
+snippet v-for "v-for" w
+v-for="(${1:item}, index) in ${2:items}" :key="$1.${3:id}"
+endsnippet
+snippet v-if "v-if" w
+v-if="${1:condition}"
+endsnippet
+
+snippet f() "function" b
+${1:name}(${2:args}) {
+},
+endsnippet
+
+snippet log "console.log()" b
+console.log(${1:"=========="})
+endsnippet
+
+extends javascript
