@@ -1,0 +1,33 @@
+priority 80
+
+snippet translation_get_methods "translation_get_methods" b
+extend TranslationGetColumnConcern
+translation_get_methods ${1::column}
+endsnippet
+
+snippet pa "params[:key]" w
+params[:${1:id}]
+endsnippet
+
+snippet production? "Rails.env.production?" w
+Rails.env.production?
+endsnippet
+snippet staging? "Rails.env.staging?" w
+Rails.env.staging?
+endsnippet
+snippet dev? "Rails.env.development?" w
+Rails.env.development?
+endsnippet
+
+snippet blk? "blank?" w
+blank?
+endsnippet
+snippet prs? "present?" w
+present?
+endsnippet
+
+snippet multi_line_string_squish "Multi-Line String(Rails Style)" b
+${1:str} = <<-STR.squish
+	${0}
+STR
+endsnippet

@@ -1,19 +1,20 @@
 priority 100
 
 # Controller
-snippet clac "Create controller class"
+snippet controller "Create controller class" b
 class ${1:Model}Controller < ApplicationController
 	before_action :find_${2:model}
 
 	$0
 
 	private
-	def find_$2
-		@$2 = ${3:$1}.find(params[:id]) if params[:id]
-	end
+
+		def find_$2
+			@$2 = ${3:$1}.find(params[:id]) if params[:id]
+		end
 end
 endsnippet
-snippet defcreate "def create - resource"
+snippet defcreate "def create - resource" b
 def create
 	@${1:model} = ${2:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}.new(params[:$1])
 	$0
@@ -29,44 +30,40 @@ def create
 	end
 end
 endsnippet
-snippet flash "flash[...]"
+snippet flash "flash[...]" b
 flash[:${1:notice}] = "${2:Successfully created...}"$0
+endsnippet
+snippet ba "before_action" b
+before_action :${1:method}
+endsnippet
+
+# Model
+snippet scp "scope :name, -> { }" b
+scope :${1:name}, -> { ${2:where} }
 endsnippet
 
 # Query
-snippet fini "find(id)"
+snippet fini "find(id)" w
 find(${1:id})
-endsnippet
-snippet fine "find_each"
-find_each(${1conditions: {:${2:field}: ${3:true}\}}) do |${4:${TM_CURRENT_WORD/(\w+)\./\L$1/g}}|
-	$0
-end
-endsnippet
-snippet finb "find_in_batches"
-find_in_batches(${1conditions: {:${2:field}: ${3:true}\}}) do |${4:${TM_CURRENT_WORD/(\w+)\./\L$1/g}}s|
-	$4s.each do |$4|
-		$0
-	end
-end
 endsnippet
 
 # Associations
-snippet bt "belongs_to (bt)"
+snippet bt "belongs_to (bt)" b
 belongs_to :${1:object}${2:, class_name: "${3:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}", foreign_key: "${4:$1_id}"}
 endsnippet
-snippet habtm "has_and_belongs_to_many (habtm)"
+snippet habtm "has_and_belongs_to_many (habtm)" b
 has_and_belongs_to_many :${1:object}${2:, join_table: "${3:table_name}", foreign_key: "${4:$1_id}"}
 endsnippet
-snippet hm "has_many (hm)"
+snippet hm "has_many (hm)" b
 has_many :${1:object}s${2:, class_name: "$1", foreign_key: "${4:reference}_id"}
 endsnippet
-snippet hmt "has_many (through)"
+snippet hmt "has_many (through)" b
 has_many :${1:objects}, through: :${2:join_association}${3:, source: :${4:$2_table_foreign_key_to_$1_table}}
 endsnippet
-snippet hmd "has_many dependent: :destroy"
+snippet hmd "has_many dependent: :destroy" b
 has_many :${1:object}s${2:, class_name: "$1", foreign_key: "${4:reference}_id"}, dependent: :destroy$0
 endsnippet
-snippet ho "has_one (ho)"
+snippet ho "has_one (ho)" b
 has_one :${1:object}${2:, class_name: "${3:${1/[[:alpha:]]+|(_)/(?1::\u$0)/g}}", foreign_key: "${4:$1_id}"}
 endsnippet
 
@@ -100,4 +97,39 @@ after_update $0
 endsnippet
 snippet aftv "after_validation"
 after_validation $0
+endsnippet
+
+# Migrations
+snippet reversible "reversible block for DB migration" b
+reversible do |dir|
+	dir.up do
+	end
+	dir.down do
+	end
+end
+endsnippet
+
+# Misc
+snippet db "binding.pry" b
+binding.pry${0: # TODO remove me}
+endsnippet
+
+snippet log "Rails.logger.info" b
+Rails.logger.info ${1}
+endsnippet
+
+snippet concern "ActiveSupport::Concern" b
+require 'active_support/concern'
+
+module ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
+	extend ActiveSupport::Concern
+
+	included do
+		${2}
+	end
+
+	module ClassMethods
+		${3}
+	end
+end
 endsnippet

@@ -30,6 +30,12 @@ snippet strf "Formats date according to the directives in the given format strin
 strftime('${1:%Y-%m-%d %H:%M:%S %z}')
 endsnippet
 
+snippet multi_line_string "Multi-Line String(Raw Ruby Style)" b
+${1:str} = <<-STR${2:.gsub(/[[:space:]]+/, " ").strip}
+	${0}
+STR
+endsnippet
+
 # snippet each
 # each { |${1:item}| ${0} }
 # endsnippet
@@ -58,12 +64,10 @@ endsnippet
 
 snippet def "define instance method" b
 def ${1:method_name}
-	${0}
 end
 endsnippet
 snippet defs "define class method" b
 def self.${1:method_name}
-	${0}
 end
 endsnippet
 snippet claself "class << self .. end" b
@@ -79,10 +83,12 @@ end
 endsnippet
 snippet ife "if ... else ... end" b
 if ${1:condition}
-	${2}
 else
-	${0}
 end
+endsnippet
+
+snippet md5 "Digest::MD5.hexdigest" b
+Digest::MD5.hexdigest(${1})
 endsnippet
 
 # #######################
@@ -112,43 +118,15 @@ class << self
 end
 endsnippet
 
-# #######################
-# ######## Rails ########
-# #######################
-
-snippet concern "ActiveSupport::Concern" b
-require 'active_support/concern'
-
-module ${1:`!p snip.rv = snip.basename.title().replace('_', '')`}
-	extend ActiveSupport::Concern
-
-	included do
-		${2}
-	end
-
-	module ClassMethods
-		${3}
-	end
+snippet lambda_reuse "lambda reuseable" b
+${1:snip} = lambda do |${2:arg}|
+	${0}
 end
-endsnippet
-
-snippet scp "scope :name, -> { }" b
-scope :${1:name}, -> { ${2:where} }
-endsnippet
-
-snippet db "binding.pry" b
-binding.pry${0: # TODO remove me}
-endsnippet
-
-snippet ba "before_action" b
-before_action :${1:method}
-endsnippet
-
-snippet log "Rails.logger.info" b
-Rails.logger.info ${1}
+${4:list}.each(&${1})
 endsnippet
 
 extends rails
+extends rails_custom
 
 #########################################
 # A valid snippet should starts with:
