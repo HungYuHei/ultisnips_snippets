@@ -99,6 +99,12 @@ CSV.open(${1:Rails.root.join("tmp/file.csv")}, "wb") do |csv|
 	csv << [${2}]
 end
 endsnippet
+snippet csvfile "save csv file" b
+csv_file = ${1:Rails.root.join("tmp/file.csv")}
+CSV.open(csv_file, "wb") do |csv|
+	csv << [${2}]
+end
+endsnippet
 
 snippet configable "configable module" b
 class Config
